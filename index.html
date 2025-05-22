@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <title>Electrician Trade Quiz</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      margin: 0;
+      padding: 20px;
+    }
+    .quiz-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s ease-in-out;
+    }
+    .quiz-container:hover {
+      transform: scale(1.01);
+    }
+    .question {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .options label {
+      display: block;
+      background: #f1f1f1;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .options label:hover {
+      background: #e0f7fa;
+    }
+    input[type="radio"] {
+      margin-right: 10px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background: #0056b3;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 1.1em;
+    }
+    .correct {
+      color: #28a745;
+      font-weight: bold;
+    }
+    .wrong {
+      color: #dc3545;
+      font-weight: bold;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container" id="quiz"></div>
+  <script>
+    const quizData = [
+  {
+    "question": "1. विद्युत धारा की SI इकाई क्या है? / What is the SI unit of electric current?",
+    "options": ["वोल्ट / Volt", "एम्पियर / Ampere", "ओम / Ohm", "वॉट / Watt"],
+    "answer": 1
+  },
+  {
+    "question": "2. वोल्टेज मापने के लिए कौन सा उपकरण उपयोग किया जाता है? / Which instrument is used to measure voltage?",
+    "options": ["एमीटर / Ammeter", "वोल्टमीटर / Voltmeter", "वाटमीटर / Wattmeter", "ओहममीटर / Ohmmeter"],
+    "answer": 1
+  },
+  {
+    "question": "3. फ्यूज़ का कार्य क्या है? / What is the function of a fuse?",
+    "options": ["धारा बढ़ाना / To increase current", "सर्किट की सुरक्षा करना / To protect the circuit", "वोल्टेज बढ़ाना / To increase voltage", "धारा संग्रहित करना / To store current"],
+    "answer": 1
+  },
+  {
+    "question": "4. निम्न में से कौन अच्छा चालक है? / Which of the following is a good conductor?",
+    "options": ["रबर / Rubber", "लकड़ी / Wood", "तांबा / Copper", "प्लास्टिक / Plastic"],
+    "answer": 2
+  },
+  {
+    "question": "5. विद्युत धारा किसके कारण बहती है? / Electric current flows due to:",
+    "options": ["वोल्टेज / Voltage", "प्रतिरोध / Resistance", "तापमान / Temperature", "घनत्व / Density"],
+    "answer": 0
+  },
+  {
+    "question": "6. पृथ्वी तार का रंग क्या होता है? / What is the color of the earth wire?",
+    "options": ["लाल / Red", "काला / Black", "हरा / Green", "नीला / Blue"],
+    "answer": 2
+  },
+  {
+    "question": "7. भारत में AC सप्लाई की आवृत्ति क्या है? / What is the frequency of AC supply in India?",
+    "options": ["60 Hz", "100 Hz", "50 Hz", "25 Hz"],
+    "answer": 2
+  },
+  {
+    "question": "8. प्रतिरोध की इकाई क्या है? / What is the unit of resistance?",
+    "options": ["ओम / Ohm", "वाट / Watt", "एम्पियर / Ampere", "वोल्ट / Volt"],
+    "answer": 0
+  },
+  {
+    "question": "9. पावर फैक्टर का आदर्श मान क्या होता है? / What is the ideal value of power factor?",
+    "options": ["0", "0.5", "1", "∞"],
+    "answer": 2
+  },
+  {
+    "question": "10. शॉर्ट सर्किट में क्या होता है? / What happens in a short circuit?",
+    "options": ["करंट बहुत कम होता है / Current drops", "करंट बहुत अधिक होता है / Current increases suddenly", "वोल्टेज बढ़ता है / Voltage rises", "करंट बंद हो जाता है / Current stops"],
+    "answer": 1
+  },
+  {
+    "question": "11. इंसुलेटर का उदाहरण कौन है? / Which is an example of an insulator?",
+    "options": ["तांबा / Copper", "ऐल्युमिनियम / Aluminium", "कांच / Glass", "पारा / Mercury"],
+    "answer": 2
+  },
+  {
+    "question": "12. विद्युत ऊर्जा की इकाई क्या है? / What is the unit of electrical energy?",
+    "options": ["वाट / Watt", "किलोवाट / Kilowatt", "किलोवाट-घंटा / Kilowatt-hour", "एम्पियर / Ampere"],
+    "answer": 2
+  },
+  {
+    "question": "13. सबसे सामान्य घरेलू स्विच कौन सा है? / Which is the most common household switch?",
+    "options": ["पुल स्विच / Pull switch", "रॉकर स्विच / Rocker switch", "स्लाइड स्विच / Slide switch", "पुश बटन / Push button"],
+    "answer": 1
+  },
+  {
+    "question": "14. डायरैक्ट करंट (DC) का स्रोत क्या है? / What is the source of Direct Current (DC)?",
+    "options": ["जनरेटर / Generator", "बैटरी / Battery", "ट्रांसफार्मर / Transformer", "मोटर / Motor"],
+    "answer": 1
+  },
+  {
+    "question": "15. स्टार कनेक्शन में वोल्टेज कैसा होता है? / How is the voltage in a star connection?",
+    "options": ["लाइन वोल्टेज = फेज वोल्टेज", "लाइन वोल्टेज > फेज वोल्टेज", "लाइन वोल्टेज < फेज वोल्टेज", "वोल्टेज नहीं होता / No voltage"],
+    "answer": 1
+  },
+  {
+    "question": "16. AC और DC में क्या मुख्य अंतर है? / What is the main difference between AC and DC?",
+    "options": ["दिशा / Direction", "धारा / Current", "वोल्टेज / Voltage", "आवृत्ति / Frequency"],
+    "answer": 0
+  },
+  {
+    "question": "17. कौन सा उपकरण केवल AC में काम करता है? / Which device works only on AC?",
+    "options": ["ट्रांसफार्मर / Transformer", "बैटरी / Battery", "डायोड / Diode", "रेज़िस्टेंस / Resistance"],
+    "answer": 0
+  },
+  {
+    "question": "18. 1 किलोवाट = कितने वाट होते हैं? / 1 Kilowatt = How many watts?",
+    "options": ["100", "1000", "10", "500"],
+    "answer": 1
+  },
+  {
+    "question": "19. कौन सी धातु सबसे अच्छा कंडक्टर है? / Which metal is the best conductor?",
+    "options": ["तांबा / Copper", "एल्युमिनियम / Aluminium", "चांदी / Silver", "लोहा / Iron"],
+    "answer": 2
+  },
+  {
+    "question": "20. कौन सी गैस ट्यूब लाइट में होती है? / Which gas is used in a tube light?",
+    "options": ["नाइट्रोजन / Nitrogen", "ऑक्सीजन / Oxygen", "आर्गन / Argon", "हाइड्रोजन / Hydrogen"],
+    "answer": 2
+  }
+];let current = 0;
+let answers = [];
+
+const quizContainer = document.getElementById('quiz');
+
+function loadQuestion() {
+  const q = quizData[current];
+  quizContainer.innerHTML = `
+    <div class="question">${q.question}</div>
+    <div class="options">
+      ${q.options.map((opt, i) => `
+        <label>
+          <input type="radio" name="option" value="${i}">
+          ${opt}
+        </label>
+      `).join('')}
+    </div>
+    <button class="btn" onclick="next()">Next</button>
+  `;
+}
+
+function next() {
+  const selected = document.querySelector('input[name="option"]:checked');
+  if (!selected) {
+    alert("कृपया एक उत्तर चुनें / Please select an answer.");
+    return;
+  }
+  answers.push(parseInt(selected.value));
+  current++;
+  if (current < quizData.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  let html = '<h2>आपके उत्तर / Your Answers:</h2>';
+  quizData.forEach((q, i) => {
+    const correct = q.answer;
+    const user = answers[i];
+    const isCorrect = correct === user;
+    html += `<div class="${isCorrect ? 'correct' : 'wrong'}">
+      <b>Q${i + 1}:</b> ${q.question}<br><br>
+      ${isCorrect
+        ? `✅ Your answer: ${q.options[user]}`
+        : `❌ Your answer: ${q.options[user] || "No Answer"}<br>✅ Right answer: ${q.options[correct]}`}
+    </div><hr>`;
+  });
+  quizContainer.innerHTML = html;
+}
+
+loadQuestion();
+
+  </script>
+</body>
+</html>
